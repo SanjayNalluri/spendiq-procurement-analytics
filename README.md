@@ -24,6 +24,18 @@ four procurement questions and answers each one with code:
 ![Freight by mode](outputs/charts/3_freight_by_mode.png)
 ![Allocation](outputs/charts/4_allocation_shift.png)
 
+## Power BI dashboard
+
+Three pages built in Power BI Desktop on the cleaned data and the Python outputs (DAX measures, Top-N
+filters, slicers by country and product group). PDF: [`powerbi/SpendIQ_dashboard.pdf`](powerbi/SpendIQ_dashboard.pdf).
+
+| Spend Overview | Supplier Scorecard | Savings |
+|---|---|---|
+| ![](powerbi/page1_spend_overview.png) | ![](powerbi/page2_supplier_scorecard.png) | ![](powerbi/page3_savings.png) |
+
+The `.pbix` file is not in the repo because it embeds the USAID data (CC BY-ND); rebuild it from
+`data/processed/scms_clean.csv` and `outputs/*.csv` after running the pipeline.
+
 ## What the analysis recommends
 
 - **Consolidate small orders.** Most of the price premium comes from small, urgent buys from wholesalers
@@ -91,4 +103,4 @@ python -m pytest -q        # 10 tests on hand-made data
 [USAID catalog mirror](https://data.amerigeoss.org/dataset/supply-chain-shipment-pricing-data)
 or Kaggle and save it as `data/raw/scms_delivery_history.csv`.
 
-Tools: Python, pandas, PuLP (CBC or HiGHS solver), matplotlib, pytest.
+Tools: Python, pandas, PuLP (CBC or HiGHS solver), matplotlib, pytest, Power BI (DAX).
