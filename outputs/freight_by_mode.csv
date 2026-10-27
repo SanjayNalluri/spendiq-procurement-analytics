@@ -1,0 +1,5 @@
+Shipment Mode,lines,freight_musd,value_musd,median_freight_pct,freight_pct_of_value
+Air,4104,42.87,507.26,12.6,8.5
+Air Charter,424,8.93,178.56,8.7,5.0
+Ocean,282,3.59,105.62,3.5,3.4
+Truck,1165,11.86,368.86,5.9,3.2

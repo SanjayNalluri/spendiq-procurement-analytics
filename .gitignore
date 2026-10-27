@@ -1,0 +1,6 @@
+# USAID data is CC BY-ND: download it yourself (see README), do not commit it
+data/
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
