@@ -2,4 +2,4 @@ pandas>=2.0
 pulp>=2.7  # tested with 3.3 and 4.2
 matplotlib>=3.7
 pytest>=7
-highspy>=1.7
+highspy>=1.7  # solver used by PuLP 4

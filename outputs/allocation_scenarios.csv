@@ -1,0 +1,9 @@
+delivery_rule,capacity,saving_musd,saving_pct,on_time_qty_weighted_pct,status,constraints_hold
+overall,1.0,0.0,0.0,97.1,Optimal,True
+overall,1.25,2.0,1.9,97.1,Optimal,True
+overall,1.5,2.53,2.4,97.1,Optimal,True
+overall,2.0,2.78,2.6,97.4,Optimal,True
+per item,1.0,0.0,0.0,97.1,Optimal,True
+per item,1.25,1.54,1.4,97.4,Optimal,True
+per item,1.5,2.02,1.9,97.7,Optimal,True
+per item,2.0,2.19,2.1,97.9,Optimal,True

@@ -7,7 +7,9 @@ Step 1 - Clean the raw SCMS file.
     "See DN-304 (ID#:10589)"            -> on another line (the shipment's cost is recorded on line 10589)
     "Freight Included in Commodity Cost" -> included in price
     "Invoiced Separately" / "Weight Captured Separately" -> billed/recorded separately
-- Adds delay_days, on_time (delivered on or before the scheduled date), lead_time_days (PO sent -> delivered), year.
+- Adds delay_days, on_time (1 = delivered on or before the scheduled date, 0 = late, blank = unknown because a
+  date is missing; unknown lines are left out of on-time rates, never counted as late),
+  lead_time_days (PO sent -> delivered), year.
 Output: data/processed/scms_clean.csv
 """
 import pandas as pd
@@ -39,7 +41,8 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     df["weight_kg"], df["weight_status"], df["weight_ref_id"] = split_text_number(df["Weight (Kilograms)"])
 
     df["delay_days"] = (df["Delivered to Client Date"] - df["Scheduled Delivery Date"]).dt.days
-    df["on_time"] = df["delay_days"] <= 0
+    known = df["delay_days"].notna()
+    df["on_time"] = (df["delay_days"] <= 0).astype(float).where(known)       # NaN = unknown, not late
     df["lead_time_days"] = (df["Delivered to Client Date"] - df["PO Sent to Vendor Date"]).dt.days
     df["year"] = df["Delivered to Client Date"].dt.year
     return df
@@ -58,7 +61,9 @@ if __name__ == "__main__":
     print("  PO date blank, by fulfilment:", df.loc[df["PO Sent to Vendor Date"].isna(), "Fulfill Via"]
           .value_counts().to_dict(), "(From RDC has no supplier PO)")
     print(f"\nYears: {int(df['year'].min())}-{int(df['year'].max())}")
-    print(f"On-time rate: {100*df['on_time'].mean():.1f}%   median delay {df['delay_days'].median()} days")
+    print(f"Lines with unknown delivery status (a date missing): {df['on_time'].isna().sum():,}")
+    print(f"On-time rate: {100*df['on_time'].mean():.1f}% of lines with both dates   "
+          f"median delay {df['delay_days'].median()} days")
     print(f"Lead time (PO to delivery), median: {df['lead_time_days'].median()} days, "
           f"rows with it: {df['lead_time_days'].notna().sum():,}")
     print(f"Total spend (Line Item Value): ${df['Line Item Value'].sum():,.0f}")
